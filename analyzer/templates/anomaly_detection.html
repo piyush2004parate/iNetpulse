@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly & Threat Detection</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anomaly & Threat Detection</h1>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Description</th>
+                    <th>Severity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for anomaly in anomalies %}
+                    <tr>
+                        <td>{{ anomaly.timestamp }}</td>
+                        <td>{{ anomaly.description }}</td>
+                        <td>{{ anomaly.severity }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No anomalies detected</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

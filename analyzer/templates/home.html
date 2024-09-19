@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iNetPulse - Network Traffic Analyzer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">iNetPulse</h1>
+        <p class="text-center">Your ultimate tool for network traffic analysis</p>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Packet Analysis</h5>
+                        <p class="card-text">Analyze individual packets in your network.</p>
+                        <a href="{% url 'sniff_packets' %}" class="btn btn-primary">Go to Packet Analysis</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Speed & Performance Analysis</h5>
+                        <p class="card-text">Monitor network speed & performance metrics.</p>
+                        <a href="{% url 'speed_performance_analysis' %}" class="btn btn-primary">Go to Performance Analysis</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Traffic Analysis</h5>
+                        <p class="card-text">Analyze overall network traffic flow.</p>
+                        <a href="{% url 'traffic_analysis' %}" class="btn btn-primary">Go to Traffic Analysis</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Anomaly & Threat Detection</h5>
+                        <p class="card-text">Identify and respond to network threats.</p>
+                        <a href="{% url 'anomaly_detection' %}" class="btn btn-danger">Go to Threat Detection</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Protocol Detection</h5>
+                        <p class="card-text">Detect and analyze network protocols.</p>
+                        <a href="{% url 'protocol_detection' %}" class="btn btn-primary">Go to Protocol Detection</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Set Up Alerts</h5>
+                        <p class="card-text">Configure alerts for network events.</p>
+                        <a href="{% url 'setup_alerts' %}" class="btn btn-warning">Go to Alert Setup</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

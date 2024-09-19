@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packet Sniffer - Ethernet Frame</title>
+    <style>
+        body {
+            background-color: #e7e0f5;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #3d1c72;
+            text-align: center;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #e7e0f5;
+            color: #3d1c72;
+            font-weight: bold;
+        }
+        td {
+            color: #3d1c72;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3d1c72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2b0f5a;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let refreshInterval;
+
+        function refreshData() {
+            $.get("{% url 'get_latest_packets' %}", function(data) {
+                const packetTableBody = document.querySelector('#packet-data tbody');
+                packetTableBody.innerHTML = '';  // Clear existing table rows
+
+                data.packets.forEach(packet => {
+                    const row = `
+                        <tr>
+                            <td>${packet.destination}</td>
+                            <td>${packet.source}</td>
+                            <td>${packet.protocol}</td>
+                            <td>${packet.packet_type}</td>
+                            <td>${packet.segment}</td>
+                            <td>${packet.source_port}</td>
+                            <td>${packet.destination_port}</td>
+                            <td>${packet.sequence}</td>
+                            <td>${packet.ack}</td>
+                        </tr>
+                    `;
+                    packetTableBody.innerHTML += row;
+                });
+            });
+        }
+
+        $(document).ready(function() {
+            $("form").on("submit", function(e) {
+                e.preventDefault(); // Prevent form from submitting normally
+
+                const actionUrl = $(this).attr("action");
+
+                $.get(actionUrl, function(response) {
+                    if (actionUrl.includes("start_sniffing")) {
+                        if (refreshInterval) {
+                            clearInterval(refreshInterval);  // Clear any existing interval
+                        }
+                        refreshInterval = setInterval(refreshData, 3000);  // Refresh every 3 seconds
+                        refreshData(); // Initial fetch to populate data immediately
+                    } else if (actionUrl.includes("stop_sniffing")) {
+                        clearInterval(refreshInterval);  // Stop refreshing data
+                        refreshData(); // Fetch the last set of data to ensure it's visible
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Ethernet Frame</h1>
+    <div class="container">
+        <form action="{% url 'start_sniffing' %}" method="get">
+            <button type="submit">Start Sniffing Packets</button>
+        </form>
+        <form action="{% url 'stop_sniffing' %}" method="get">
+            <button type="submit">Stop Sniffing Packets</button>
+        </form>
+
+        <div id="packet-data">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Source</th>
+                        <th>Protocol</th>
+                        <th>Packet Type</th>
+                        <th>Segment</th>
+                        <th>Source Port</th>
+                        <th>Destination Port</th>
+                        <th>Sequence</th>
+                        <th>Acknowledgement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed & Performance Analysis</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .download, .upload, .ping {
+            background-color: #e7e0f5;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Speed & Performance Analysis</h1>
+        
+        <div class="result download">
+            <strong>Download Speed: </strong> {{ download_speed }} Mbps
+        </div>
+        <div class="result upload">
+            <strong>Upload Speed: </strong> {{ upload_speed }} Mbps
+        </div>
+        <div class="result ping">
+            <strong>Ping: </strong> {{ ping }} ms
+        </div>
+    </div>
+
+</body>
+</html>
