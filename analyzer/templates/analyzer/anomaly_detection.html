@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*height: 100vh;*/
+            margin: 0;
+            background-color: black;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            background-color: black;
+            padding: 20px;
+            /*border-radius: 10px;*/
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container h1 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        #start-scan-btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #start-scan-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .scan-animation {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .scan-animation img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .scan-animation p {
+            font-size: 1rem;
+            color: white;
+        }
+
+        #scanStatus {
+            color: white;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Anomaly Detection</h1>
+        <button id="start-scan-btn">Start Scan</button>
+
+        <div id="animation-container" class="scan-animation">
+            <img src="{% static 'scan_animation.gif' %}" alt="Scanning...">
+            <p id="countdown-text">Scanning for anomalies... Please wait <span id="countdown">30</span> seconds.</p>
+        </div>
+        
+        <!-- Scan Status -->
+        <div id="scanStatus"></div>
+    </div>
+
+    <script>
+        const scanBtn = document.getElementById('start-scan-btn');
+        const animationContainer = document.getElementById('animation-container');
+        const countdownElement = document.getElementById('countdown');
+        const scanStatus = document.getElementById('scanStatus');
+
+        scanBtn.addEventListener('click', function() {
+            // Start the animation and countdown
+            animationContainer.style.display = 'block';
+            scanBtn.disabled = true;
+            scanStatus.innerHTML = "Scanning..."; // Show scanning status
+
+            let countdownValue = 30;
+            countdownElement.textContent = countdownValue;
+
+            // Start the countdown
+            const countdownInterval = setInterval(function() {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+
+            // Make an AJAX request to start the scan
+            fetch("{% url 'start_scan' %}", {  // Adjust URL if needed
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Scan complete, handle the response
+                clearInterval(countdownInterval);  // Stop countdown
+                scanStatus.innerHTML = data.message;
+                animationContainer.style.display = 'none';  // Hide animation
+                scanBtn.disabled = false;  // Re-enable the button
+
+                // Fetch the final report
+                fetch("{% url 'generate_report' %}")
+                .then(response => response.json())
+                .then(report => {
+                    // Display the report
+                    scanStatus.innerHTML = `<pre>${JSON.stringify(report, null, 2)}</pre>`;
+                });
+            })
+            .catch(error => {
+                // Handle errors
+                scanStatus.innerHTML = "Error occurred!";
+                animationContainer.style.display = 'none';
+                scanBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

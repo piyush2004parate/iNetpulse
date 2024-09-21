@@ -1,3 +1,7 @@
+from django.shortcuts import render
+from django.http import JsonResponse
+import time
+import random
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from scapy.all import sniff, TCP, UDP, IP
@@ -6,15 +10,15 @@ from .models import Packet
 import queue
 import speedtest
 from .models import PerformanceMetrics
-from .models import NetworkTraffic, Anomaly
 from django.db.models import Count
+
 # Global variables to control sniffing
 packet_queue = queue.Queue()
 sniff_thread = None
 stop_sniffing_flag = False
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'analyzer\home.html')
 
 
 def traffic_analysis(request):
@@ -94,7 +98,7 @@ def stop_sniffing(request):
 
 def sniff_packets(request):
     """View to display sniffed packets."""
-    return render(request, 'sniff_packets.html')
+    return render(request, 'analyzer\sniff_packets.html')
 
 def get_latest_packets(request):
     """View to return latest packets as JSON for AJAX."""
@@ -141,28 +145,56 @@ def speed_performance_analysis(request):
         'ping': round(ping, 2),
     }
     
-    return render(request, 'speed_performance_analysis.html', context)
+    return render(request, 'analyzer\speed_performance_analysis.html', context)
 
-def detect_anomalies():
-    # Example logic for detecting anomalies
-    anomalies = []
-    
-    # Example: detect high traffic volume from a single IP
-    high_traffic_ips = NetworkTraffic.objects.values('source_ip').annotate(count=Count('id')).filter(count__gt=100)
-    
-    for ip in high_traffic_ips:
-        anomalies.append(Anomaly(description=f"High traffic from IP {ip['source_ip']}", severity="High"))
 
-    # Save detected anomalies to the database
-    for anomaly in anomalies:
-        anomaly.save()
-    
+
+
+# Simulate scanning functions for anomalies
+def simulate_anomaly_scan():
+    # Simulating different types of anomalies
+    anomalies = [
+        {"type": "Death Packets", "detected": random.choice([True, False])},
+        {"type": "Bandwidth Spikes", "detected": random.choice([True, False])},
+        {"type": "Port Scanning", "detected": random.choice([True, False])},
+        {"type": "Unusual Traffic Destinations", "detected": random.choice([True, False])},
+        {"type": "Anomalous DNS Queries", "detected": random.choice([True, False])},
+    ]
     return anomalies
 
-def anomaly_detection_view(request):
-    anomalies = detect_anomalies()
-    context = {
-        'anomalies': anomalies
+def anomaly_detection(request):
+    if request.method == "POST":
+        # Simulate a 30-second network scan for anomalies
+        time.sleep(30)  # Simulate the scanning delay
+
+        # After scan completion, simulate anomaly detection
+        anomalies_detected = simulate_anomaly_scan()
+
+        return JsonResponse({
+            'status': 'scan_complete',
+            'message': 'Anomaly scan completed successfully.',
+            'anomalies': anomalies_detected
+        })
+
+    return render(request, 'analyzer/anomaly_detection.html')
+
+def protocol_detection(request):
+    return render(request, 'protocol_detection.html')
+
+def setup_alerts(request):
+    return render(request, 'setup_alerts.html')
+
+# New view to generate report after scan completion
+def generate_report(request):
+    # Simulate generating a report based on anomalies
+    anomalies = simulate_anomaly_scan()
+
+    # Structure the report data
+    report = {
+        "scan_duration": "30 seconds",
+        "anomalies_found": [anomaly for anomaly in anomalies if anomaly["detected"]],
+        "anomalies_checked": anomalies
     }
-    return render(request, 'anomaly_detection.html', context)
+
+    return JsonResponse(report)
 
