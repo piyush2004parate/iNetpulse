@@ -5,7 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iNetPulse - Network Traffic Analyzer</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% load static %} <!-- Load the static template tag library -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">  <!-- Link to custom CSS -->
 </head>
+<style>
+    body {
+        background-color: #000; /* Black background */
+        color: #ffffff; /* White text for contrast */
+    }
+    
+    h1, p {
+        color: #ffffff; /* Ensures headings and paragraphs are white */
+    }
+    
+    .card {
+        background-color: #1a1a1a; /* Dark gray for cards */
+        border: none; /* Remove default card border */
+    }
+    
+    .card-title {
+        color: #ffcc00; /* Bright yellow for card titles */
+    }
+    
+    .card-text {
+        color: #ffffff; /* White text for card descriptions */
+    }
+    
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary color */
+        border-color: #007bff; /* Bootstrap primary border color */
+    }
+    
+    .btn-danger {
+        background-color: #dc3545; /* Bootstrap danger color */
+        border-color: #dc3545; /* Bootstrap danger border color */
+    }
+    
+    .btn-warning {
+        background-color: #ffc107; /* Bootstrap warning color */
+        border-color: #ffc107; /* Bootstrap warning border color */
+    }
+    
+    footer {
+        margin-top: 20px;
+        color: #ffffff; /* White text for footer */
+    }
+    
+    </style>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">iNetPulse</h1>
@@ -15,7 +62,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Packet Analysis</h5>
+                        <h5 class="card-title"><i class="fas fa-packet"></i> Packet Analysis</h5>
                         <p class="card-text">Analyze individual packets in your network.</p>
                         <a href="{% url 'sniff_packets' %}" class="btn btn-primary">Go to Packet Analysis</a>
                     </div>
@@ -24,7 +71,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Speed & Performance Analysis</h5>
+                        <h5 class="card-title"><i class="fas fa-tachometer-alt"></i> Speed & Performance Analysis</h5>
                         <p class="card-text">Monitor network speed & performance metrics.</p>
                         <a href="{% url 'speed_performance_analysis' %}" class="btn btn-primary">Go to Performance Analysis</a>
                     </div>
@@ -33,7 +80,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Traffic Analysis</h5>
+                        <h5 class="card-title"><i class="fas fa-chart-line"></i> Traffic Analysis</h5>
                         <p class="card-text">Analyze overall network traffic flow.</p>
                         <a href="{% url 'traffic_analysis' %}" class="btn btn-primary">Go to Traffic Analysis</a>
                     </div>
@@ -45,7 +92,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Anomaly & Threat Detection</h5>
+                        <h5 class="card-title"><i class="fas fa-shield-alt"></i> Anomaly & Threat Detection</h5>
                         <p class="card-text">Identify and respond to network threats.</p>
                         <a href="{% url 'anomaly_detection' %}" class="btn btn-danger">Go to Threat Detection</a>
                     </div>
@@ -54,7 +101,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Protocol Detection</h5>
+                        <h5 class="card-title"><i class="fas fa-network-wired"></i> Protocol Detection</h5>
                         <p class="card-text">Detect and analyze network protocols.</p>
                         <a href="{% url 'protocol_detection' %}" class="btn btn-primary">Go to Protocol Detection</a>
                     </div>
@@ -63,7 +110,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Set Up Alerts</h5>
+                        <h5 class="card-title"><i class="fas fa-bell"></i> Set Up Alerts</h5>
                         <p class="card-text">Configure alerts for network events.</p>
                         <a href="{% url 'setup_alerts' %}" class="btn btn-warning">Go to Alert Setup</a>
                     </div>
@@ -77,3 +124,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
+
+
