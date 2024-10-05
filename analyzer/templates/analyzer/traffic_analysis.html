@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Analysis</title>
+    
+    <!-- Bootstrap and Chart.js -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS for dark theme -->
+    <style>
+        body {
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* White text */
+        }
+        
+        h1, p {
+            color: #ffffff; /* White headings and paragraph */
+        }
+
+        .card {
+            background-color: #1e1e1e; /* Dark card background */
+            border-color: #333;
+        }
+
+        .list-group-item {
+            background-color: #1e1e1e;
+            border-color: #333;
+            color: #ffffff;
+        }
+
+        /* Chart.js canvas style */
+        canvas {
+            background-color: #2b2b2b; /* Dark chart background */
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #333;
+        }
+
+        .btn-primary {
+            background-color: #0062cc;
+            border-color: #005cbf;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Traffic Analysis</h1>
+        <p class="text-center">Overview of Network Traffic Flow</p>
+
+        <!-- Chart Container -->
+        <div class="row mt-4">
+            <div class="col-md-8 offset-md-2">
+                <canvas id="trafficChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Chart.js and real-time updates -->
+    <script>
+        const ctx = document.getElementById('trafficChart').getContext('2d');
+        let trafficChart = new Chart(ctx, {
+            type: 'line', // Line chart for real-time traffic
+            data: {
+                labels: [], // Time labels
+                datasets: [
+                    {
+                        label: 'Bytes Sent',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)', // Light transparency
+                        data: [],
+                        fill: true
+                    },
+                    {
+                        label: 'Bytes Received',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.1)', // Light transparency
+                        data: [],
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            color: '#ffffff', // White axis text
+                        },
+                        ticks: {
+                            color: '#ffffff', // White ticks
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Bytes',
+                            color: '#ffffff', // White axis text
+                        },
+                        ticks: {
+                            color: '#ffffff', // White ticks
+                        },
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#ffffff', // White labels for datasets
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to update chart with new data
+        function updateChart(data) {
+            const currentTime = new Date().toLocaleTimeString(); // Get current time
+            trafficChart.data.labels.push(currentTime); // Add current time to labels
+
+            // Limit to 10 data points
+            if (trafficChart.data.labels.length > 10) {
+                trafficChart.data.labels.shift(); // Remove oldest label
+                trafficChart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift(); // Remove oldest data
+                });
+            }
+
+            // Update chart datasets
+            trafficChart.data.datasets[0].data.push(data.bytes_sent);
+            trafficChart.data.datasets[1].data.push(data.bytes_recv);
+
+            trafficChart.update(); // Update chart with new data
+        }
+
+        // AJAX function to fetch real-time data from Django view
+        function fetchTrafficData() {
+            fetch("{% url 'traffic_data' %}") // Replace with your view URL
+                .then(response => response.json())
+                .then(data => {
+                    updateChart(data); // Update chart with new data
+                });
+        }
+
+        // Fetch data every 5 seconds
+        setInterval(fetchTrafficData, 5000);
+    </script>
+</body>
+</html>

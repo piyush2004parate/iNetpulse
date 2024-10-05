@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'analyzer',
-    'anomaly_detection'
+    'anomaly_detection',
+    'Traffic_analyzer'
 ]
 
 MIDDLEWARE = [

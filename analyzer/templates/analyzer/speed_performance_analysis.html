@@ -4,43 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speed & Performance Analysis</title>
+
+    <!-- Custom CSS for dark theme -->
     <style>
         body {
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff; /* White text */
             margin: 0;
             padding: 0;
         }
         .container {
             width: 60%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #1e1e1e; /* Dark card background */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Soft shadow */
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #f5a623; /* Light orange heading */
+            margin-bottom: 30px;
         }
         .result {
-            margin: 20px 0;
-            padding: 10px;
+            margin: 15px 0;
+            padding: 15px;
             font-size: 18px;
+            border-radius: 8px;
             text-align: center;
+            background-color: #2b2b2b; /* Slightly lighter background for results */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Soft shadow */
         }
-        .download, .upload, .ping, .packet-loss, .jitter, .latency, .throughput, .connection-time, .max-throughput, .average-throughput {
-            background-color: #e7e0f5;
-            margin-bottom: 10px;
+        .result strong {
+            color: #00d1b2; /* Light cyan color for labels */
         }
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 25px;
             background-color: #007bff;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             text-align: center;
             margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
         }
     </style>
 </head>
@@ -49,6 +60,7 @@
     <div class="container">
         <h1>Speed & Performance Analysis</h1>
         
+        <!-- Performance Results -->
         <div class="result download">
             <strong>Download Speed: </strong> {{ download_speed }} Mbps
         </div>
@@ -80,6 +92,7 @@
             <strong>Average Throughput: </strong> {{ average_throughput }} Mbps
         </div>
 
+        <!-- Retest Button -->
         <div style="text-align: center; margin-top: 20px;">
             <a href="{% url 'speed_performance_analysis' %}" class="btn">Retest Speed</a>
         </div>
