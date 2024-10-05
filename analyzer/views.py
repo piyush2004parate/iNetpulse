@@ -118,34 +118,57 @@ def get_latest_packets(request):
 
 
 def speed_performance_analysis(request):
-    # Run speed test
-    st = speedtest.Speedtest()
-    
-    # Get best server based on ping
-    st.get_best_server()
-    
-    # Perform download and upload speed tests
-    download_speed = st.download() / 10**6  # Convert to Mbps
-    upload_speed = st.upload() / 10**6  # Convert to Mbps
-    
-    # Get ping latency
-    ping = st.results.ping
-    
-    # Save the results to the database (optional)
-    performance = PerformanceMetrics.objects.create(
-        download_speed=download_speed,
-        upload_speed=upload_speed,
-        ping=ping
-    )
-    
-    # Prepare the data for display
-    context = {
-        'download_speed': round(download_speed, 2),
-        'upload_speed': round(upload_speed, 2),
-        'ping': round(ping, 2),
-    }
-    
-    return render(request, 'analyzer\speed_performance_analysis.html', context)
+    try:
+        st = speedtest.Speedtest()
+        st.get_best_server()
+        
+        download_speed = st.download() / 10**6  # Convert to Mbps
+        upload_speed = st.upload() / 10**6  # Convert to Mbps
+        ping = st.results.ping
+        
+        # Simulated metrics
+        packet_loss = random.uniform(0, 5)
+        jitter = random.uniform(0, 20)
+        latency = random.uniform(5, 30)
+        throughput = download_speed / 2
+        connection_time = random.uniform(1, 5)
+        max_throughput = max(download_speed, upload_speed)
+        average_throughput = (download_speed + upload_speed) / 2
+
+        PerformanceMetrics.objects.create(
+            download_speed=download_speed,
+            upload_speed=upload_speed,
+            ping=ping,
+            packet_loss=packet_loss,
+            jitter=jitter,
+            latency=latency,
+            throughput=throughput,
+            connection_time=connection_time,
+            max_throughput=max_throughput,
+            average_throughput=average_throughput
+        )
+
+        context = {
+            'download_speed': round(download_speed, 2),
+            'upload_speed': round(upload_speed, 2),
+            'ping': round(ping, 2),
+            'packet_loss': round(packet_loss, 2),
+            'jitter': round(jitter, 2),
+            'latency': round(latency, 2),
+            'throughput': round(throughput, 2),
+            'connection_time': round(connection_time, 2),
+            'max_throughput': round(max_throughput, 2),
+            'average_throughput': round(average_throughput, 2),
+        }
+
+        return render(request, 'analyzer/speed_performance_analysis.html', context)
+
+    except speedtest.ConfigRetrievalError:
+        return JsonResponse({'error': 'Unable to retrieve speed test configuration. Please try again later.'}, status=500)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
 
 
 

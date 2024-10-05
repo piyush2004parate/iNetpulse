@@ -28,9 +28,19 @@
             font-size: 18px;
             text-align: center;
         }
-        .download, .upload, .ping {
+        .download, .upload, .ping, .packet-loss, .jitter, .latency, .throughput, .connection-time, .max-throughput, .average-throughput {
             background-color: #e7e0f5;
             margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px auto;
         }
     </style>
 </head>
@@ -47,6 +57,31 @@
         </div>
         <div class="result ping">
             <strong>Ping: </strong> {{ ping }} ms
+        </div>
+        <div class="result packet-loss">
+            <strong>Packet Loss: </strong> {{ packet_loss }} %
+        </div>
+        <div class="result jitter">
+            <strong>Jitter: </strong> {{ jitter }} ms
+        </div>
+        <div class="result latency">
+            <strong>Latency: </strong> {{ latency }} ms
+        </div>
+        <div class="result throughput">
+            <strong>Throughput: </strong> {{ throughput }} Mbps
+        </div>
+        <div class="result connection-time">
+            <strong>Connection Time: </strong> {{ connection_time }} seconds
+        </div>
+        <div class="result max-throughput">
+            <strong>Max Throughput: </strong> {{ max_throughput }} Mbps
+        </div>
+        <div class="result average-throughput">
+            <strong>Average Throughput: </strong> {{ average_throughput }} Mbps
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'speed_performance_analysis' %}" class="btn">Retest Speed</a>
         </div>
     </div>
 

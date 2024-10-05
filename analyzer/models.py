@@ -17,13 +17,21 @@ class Packet(models.Model):
     
 
 class PerformanceMetrics(models.Model):
+    download_speed = models.FloatField(default=0.0)  # Assuming 0 is a valid default
+    upload_speed = models.FloatField(default=0.0)    # Assuming 0 is a valid default
+    ping = models.FloatField(default=0.0)             # Assuming 0 is a valid default
+    packet_loss = models.FloatField(default=0.0)     # Assuming 0 is a valid default
+    jitter = models.FloatField(default=0.0, null=True)  # Default to 0.0
+    latency = models.FloatField(default=0.0)          # Assuming 0 is a valid default
+    throughput = models.FloatField(default=0.0)       # Assuming 0 is a valid default
+    connection_time = models.FloatField(default=0.0, null=True)  # Default to 0.0
+    max_throughput = models.FloatField(default=0.0)   # Assuming 0 is a valid default
+    average_throughput = models.FloatField(default=0.0, null=True)  # Default to 0.0
     timestamp = models.DateTimeField(auto_now_add=True)
-    download_speed = models.FloatField()  # in Mbps
-    upload_speed = models.FloatField()    # in Mbps
-    ping = models.FloatField()            # in ms
 
     def __str__(self):
         return f"Performance on {self.timestamp}"
+
 
 
 
