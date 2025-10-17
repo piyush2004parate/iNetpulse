@@ -26,23 +26,14 @@ Here are some glimpses of iNetpulse in action:
 ### Traffic Analysis (Connections & Bytes)
 ![Traffic Analysis Connections and Bytes](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/TrafficGraph.jpg)
 
-### Traffic Analysis (Detailed Graph)
-![Traffic Analysis Detailed Graph](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/TrafficAnalysis.jpg)
-
 ### Anomaly Detection (Scan in Progress)
-![Anomaly Detection Scan in Progress](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/AnomalyScanning.jpg)
-
-### Anomaly Detection (JSON Output)
-![Anomaly Detection JSON Output](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/AnamolyDetection_Json.jpg)
+![Anomaly Detection Scan in Progress](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/AnomalyScanning.png)
 
 ### Anomaly Detection (Tabular Output)
-![Anomaly Detection Tabular Output](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/AnamolyDetection_Tabular.jpg)
+![Anomaly Detection Tabular Output](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/TrafficAnalysis_Tabular.jpg)
 
 ### Protocol Detection
 ![Protocol Detection](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/ProtocolDetection.jpg)
-
-### Project Poster (Overall View)
-![INetpulse Project Poster](https://github.com/piyush2004parate/iNetpulse/blob/main/static/Images/ProjectPoster.jpg)
 
 
 ## 🧩 Key Features
